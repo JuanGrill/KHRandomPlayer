@@ -1,4 +1,4 @@
-# KHRandomPlayer
+# KH Random Player
 
 Play random songs from downloads khinsider.
 
@@ -25,7 +25,7 @@ Features:
    - Currently, there's no song history. However, its a intended feature, so please stay tuned!
  
 - Who is the creature who appears in the cover section and in the program icon?
-   - Its Pommy!. Please go and play Bomberman 64 TSA!
+   - Its Pommy! Please go and play Bomberman 64 TSA!
  
 - The code is a mess. Can I improve it?
    - Yes, you can improve the code, ~~break it, destroy it,dream about it, use it to order pizza~~.
