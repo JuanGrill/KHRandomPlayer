@@ -2,7 +2,7 @@
 
 Play random songs from downloads khinsider.
 
-![Player](https://github.com/JuanGrill/KHRandomPlayer/assets/70032584/cb62f781-bfa5-447f-be59-79fa50b10c6f)
+![Player](https://github.com/JuanGrill/KHRandomPlayer/assets/70032584/883a1174-9ffc-459f-82e6-49e186376ccd)
 
 Features:
 - Buffer playlist with a customizable limit (Keep loading random songs in background).
