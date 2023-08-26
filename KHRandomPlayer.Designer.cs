@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KHRandomPlayer));
             this.btnFetch = new System.Windows.Forms.Button();
+            this.cmsAbout = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDownload = new System.Windows.Forms.Button();
             this.lSongName = new System.Windows.Forms.Label();
             this.cmsCurrentSong = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -41,7 +43,9 @@
             this.lAlbumName = new System.Windows.Forms.Label();
             this.fetchMusicTimer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.pBoxCover = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.btnNextSong = new System.Windows.Forms.Button();
@@ -95,26 +99,22 @@
             this.btnSettings = new System.Windows.Forms.Button();
             this.playSoundTrigger = new System.Windows.Forms.Timer(this.components);
             this.MediaPlayerSecret = new AxWMPLib.AxWindowsMediaPlayer();
-            this.MediaPlayer = new AxWMPLib.AxWindowsMediaPlayer();
-            this.pBoxCover = new System.Windows.Forms.PictureBox();
             this.pBoxPlayerBack = new System.Windows.Forms.PictureBox();
             this.pBoxSkinPlayer = new System.Windows.Forms.PictureBox();
-            this.cmsAbout = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiAbout = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsAbout.SuspendLayout();
             this.cmsCurrentSong.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCover)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.tlpPlaylist.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MediaPlayerSecret)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pBoxCover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxPlayerBack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxSkinPlayer)).BeginInit();
-            this.cmsAbout.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnFetch
@@ -135,6 +135,20 @@
             this.btnFetch.Text = "Fetch";
             this.btnFetch.UseVisualStyleBackColor = false;
             this.btnFetch.Click += new System.EventHandler(this.StartFetch);
+            // 
+            // cmsAbout
+            // 
+            this.cmsAbout.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiAbout});
+            this.cmsAbout.Name = "cmsAbout";
+            this.cmsAbout.Size = new System.Drawing.Size(108, 26);
+            // 
+            // tsmiAbout
+            // 
+            this.tsmiAbout.Name = "tsmiAbout";
+            this.tsmiAbout.Size = new System.Drawing.Size(107, 22);
+            this.tsmiAbout.Text = "About";
+            this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
             // 
             // btnDownload
             // 
@@ -249,6 +263,18 @@
             this.tableLayoutPanel1.TabIndex = 8;
             this.tableLayoutPanel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveWindow);
             // 
+            // MediaPlayer
+            // 
+            this.MediaPlayer.ContextMenuStrip = this.cmsAbout;
+            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MediaPlayer.Enabled = true;
+            this.MediaPlayer.Location = new System.Drawing.Point(3, 106);
+            this.MediaPlayer.Name = "MediaPlayer";
+            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
+            this.MediaPlayer.Size = new System.Drawing.Size(454, 44);
+            this.MediaPlayer.TabIndex = 2;
+            this.MediaPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.MediaPlayer_PlayStateChange);
+            // 
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.ColumnCount = 2;
@@ -264,6 +290,21 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(454, 97);
             this.tableLayoutPanel3.TabIndex = 9;
+            // 
+            // pBoxCover
+            // 
+            this.pBoxCover.BackgroundImage = global::KHRandomPlayer.Properties.Resources.PommyBadge;
+            this.pBoxCover.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pBoxCover.ContextMenuStrip = this.cmsCurrentSong;
+            this.pBoxCover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pBoxCover.ImageLocation = "";
+            this.pBoxCover.Location = new System.Drawing.Point(3, 3);
+            this.pBoxCover.Name = "pBoxCover";
+            this.pBoxCover.Size = new System.Drawing.Size(93, 91);
+            this.pBoxCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pBoxCover.TabIndex = 9;
+            this.pBoxCover.TabStop = false;
+            this.pBoxCover.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveWindow);
             // 
             // tableLayoutPanel2
             // 
@@ -1041,39 +1082,12 @@
             // MediaPlayerSecret
             // 
             this.MediaPlayerSecret.Enabled = true;
-            this.MediaPlayerSecret.Location = new System.Drawing.Point(455, 304);
+            this.MediaPlayerSecret.Location = new System.Drawing.Point(453, 302);
             this.MediaPlayerSecret.Name = "MediaPlayerSecret";
             this.MediaPlayerSecret.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayerSecret.OcxState")));
             this.MediaPlayerSecret.Size = new System.Drawing.Size(10, 10);
             this.MediaPlayerSecret.TabIndex = 10;
             this.MediaPlayerSecret.Visible = false;
-            // 
-            // MediaPlayer
-            // 
-            this.MediaPlayer.ContextMenuStrip = this.cmsAbout;
-            this.MediaPlayer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MediaPlayer.Enabled = true;
-            this.MediaPlayer.Location = new System.Drawing.Point(3, 106);
-            this.MediaPlayer.Name = "MediaPlayer";
-            this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
-            this.MediaPlayer.Size = new System.Drawing.Size(454, 44);
-            this.MediaPlayer.TabIndex = 2;
-            this.MediaPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.MediaPlayer_PlayStateChange);
-            // 
-            // pBoxCover
-            // 
-            this.pBoxCover.BackgroundImage = global::KHRandomPlayer.Properties.Resources.PommyBadge;
-            this.pBoxCover.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pBoxCover.ContextMenuStrip = this.cmsCurrentSong;
-            this.pBoxCover.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pBoxCover.ImageLocation = "";
-            this.pBoxCover.Location = new System.Drawing.Point(3, 3);
-            this.pBoxCover.Name = "pBoxCover";
-            this.pBoxCover.Size = new System.Drawing.Size(93, 91);
-            this.pBoxCover.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pBoxCover.TabIndex = 9;
-            this.pBoxCover.TabStop = false;
-            this.pBoxCover.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveWindow);
             // 
             // pBoxPlayerBack
             // 
@@ -1101,20 +1115,6 @@
             this.pBoxSkinPlayer.TabStop = false;
             this.pBoxSkinPlayer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MoveWindow);
             // 
-            // cmsAbout
-            // 
-            this.cmsAbout.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tsmiAbout});
-            this.cmsAbout.Name = "cmsAbout";
-            this.cmsAbout.Size = new System.Drawing.Size(108, 26);
-            // 
-            // tsmiAbout
-            // 
-            this.tsmiAbout.Name = "tsmiAbout";
-            this.tsmiAbout.Size = new System.Drawing.Size(107, 22);
-            this.tsmiAbout.Text = "About";
-            this.tsmiAbout.Click += new System.EventHandler(this.tsmiAbout_Click);
-            // 
             // KHRandomPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1138,9 +1138,12 @@
             this.Name = "KHRandomPlayer";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
+            this.cmsAbout.ResumeLayout(false);
             this.cmsCurrentSong.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pBoxCover)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.tlpPlaylist.ResumeLayout(false);
@@ -1150,11 +1153,8 @@
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MediaPlayerSecret)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.MediaPlayer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pBoxCover)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxPlayerBack)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pBoxSkinPlayer)).EndInit();
-            this.cmsAbout.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

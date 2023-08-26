@@ -255,8 +255,11 @@ namespace KHRandomPlayer
             {
                 durationCounter++;
                 lDurationCounter.Text = durationCounter.ToString();
-
-                if (durationCounter > 2)
+                if (MediaPlayerSecret.playState == WMPLib.WMPPlayState.wmppsPlaying ||
+                    MediaPlayerSecret.playState == WMPLib.WMPPlayState.wmppsMediaEnded ||
+                    MediaPlayerSecret.playState == WMPLib.WMPPlayState.wmppsStopped ||
+                    MediaPlayerSecret.playState == WMPLib.WMPPlayState.wmppsReady)
+                //if (durationCounter > 2)
                 {
                     double duration = MediaPlayerSecret.Ctlcontrols.currentItem.duration;
 
