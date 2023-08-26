@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json;
 using KHRandomPlayer.Classes;
+using System.Diagnostics;
+using KHRandomPlayer.Properties;
 
 namespace KHRandomPlayer
 {
@@ -85,6 +87,8 @@ namespace KHRandomPlayer
             btnMinimize.Parent = pBoxSkinPlayer;
             btnShowPlaylist.Parent = pBoxSkinPlayer;
             btnSettings.Parent = pBoxSkinPlayer;
+            tableLayoutPanel1.Parent = pBoxPlayerBack;
+            tableLayoutPanel1.Location = new Point(tableLayoutPanel1.Location.X - pBoxPlayerBack.Location.X, tableLayoutPanel1.Location.Y - pBoxPlayerBack.Location.Y);
 
             //Load settings
             if (File.Exists("Settings.json"))
@@ -93,24 +97,44 @@ namespace KHRandomPlayer
             }
             else
             {
-                settingsModel = new SettingsModel(20, 30, true);
+                settingsModel = new SettingsModel(20, 30, true, "");
                 File.WriteAllText("Settings.json", JsonSerializer.Serialize(settingsModel));
             }
 
             numLimitSongQueue = settingsModel.S_LimitSongQueue;
             minSongLength = settingsModel.S_MinimumSongLength;
             coverServiceEnabled = settingsModel.S_CoverServiceEnabled;
+
+            if (settingsModel.S_PlayerBackgroundRoute != "" && File.Exists(settingsModel.S_PlayerBackgroundRoute))
+            {
+                pBoxPlayerBack.ImageLocation = settingsModel.S_PlayerBackgroundRoute;
+            }
+            else
+            {
+                pBoxPlayerBack.Image = Resources.DefaultBack;
+            }
         }
 
         private void StartFetch(object sender, EventArgs e)
         {
-            btnFetch.Enabled = false;
-            fetchMusicTimer.Enabled = true;
-            fetchDurationTimer.Enabled = true;
-
-            if (coverServiceEnabled)
+            if (btnFetch.Text == "Fetch")
             {
-                fetchAlbumCoverTimer.Enabled = true;
+                btnFetch.Text = "Stop";
+                fetchMusicTimer.Enabled = true;
+                fetchDurationTimer.Enabled = true;
+
+                if (coverServiceEnabled)
+                {
+                    fetchAlbumCoverTimer.Enabled = true;
+                }
+            }
+
+            else if (btnFetch.Text == "Stop")
+            {
+                btnFetch.Text = "Fetch";
+                fetchMusicTimer.Enabled = false;
+                fetchDurationTimer.Enabled = false;
+                fetchAlbumCoverTimer.Enabled = false;
             }
         }
 
@@ -162,12 +186,18 @@ namespace KHRandomPlayer
             lSongName.Text = bufferPlaylist[0].SongName;
             lAlbumName.Text = bufferPlaylist[0].AlbumName;
 
+            tsmiCopySongName.Enabled = true;
+            tsmiCopyAlbumName.Enabled = true;
+            tsmiGoToAlbumSite.Enabled = true;
+
             if (bufferPlaylist[0].AlbumCoverURL != "No cover" && coverServiceEnabled)
             {
+                tsmiSaveCover.Enabled = true;
                 pBoxCover.ImageLocation = bufferPlaylist[0].AlbumCoverURL;
             }
             else
             {
+                tsmiSaveCover.Enabled = false;
                 pBoxCover.ImageLocation = "";
             }
             
@@ -176,16 +206,20 @@ namespace KHRandomPlayer
 
         private void PlayNextSong()
         {
-            bufferPlaylist.RemoveAt(0);
-            UpdateTable();
-
-            //Disable Next song button
-            if (bufferPlaylist.Count < 2 || bufferPlaylist[1] == null || bufferPlaylist[1].Duration == "Loading...")
+            //If there's one song left in queue, don't continue to the next song
+            if (bufferPlaylist.Count > 1)
             {
-                btnNextSong.Enabled = false;
-            }
+                bufferPlaylist.RemoveAt(0);
+                UpdateTable();
 
-            PlayMusic();
+                //Disable Next song button
+                if (bufferPlaylist.Count < 2 || bufferPlaylist[1] == null || bufferPlaylist[1].Duration == "Loading...")
+                {
+                    btnNextSong.Enabled = false;
+                }
+
+                PlayMusic();
+            }
         }
 
         /// <summary>
@@ -335,11 +369,21 @@ namespace KHRandomPlayer
             }
         }
 
+        private void playSoundTrigger_Tick(object sender, EventArgs e)
+        {
+            if (MediaPlayer.playState == WMPLib.WMPPlayState.wmppsReady)
+            {
+                MediaPlayer.Ctlcontrols.play();
+                playSoundTrigger.Enabled = false;
+            }
+        }
+
         private void MediaPlayer_PlayStateChange(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
         {
             if (e.newState == (int)WMPLib.WMPPlayState.wmppsMediaEnded)
             {
                 PlayNextSong();
+                playSoundTrigger.Enabled = true;
             }
         }
 
@@ -405,11 +449,6 @@ namespace KHRandomPlayer
             ControlPaint.DrawBorder(e.Graphics, tlpPlaylist.ClientRectangle, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid);
         }
 
-        private void tableLayoutPanel6_Paint(object sender, PaintEventArgs e)
-        {
-            ControlPaint.DrawBorder(e.Graphics, tlpPlaylist.ClientRectangle, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid);
-        }
-
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
 
@@ -429,16 +468,58 @@ namespace KHRandomPlayer
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            Settings form = new Settings(numLimitSongQueue, minSongLength, coverServiceEnabled);
+            Settings form = new Settings(numLimitSongQueue, minSongLength, coverServiceEnabled, pBoxPlayerBack.ImageLocation);
 
             if (form.ShowDialog() == DialogResult.OK)
             {
                 numLimitSongQueue = form.Opt1;
                 minSongLength = form.Opt2;
                 coverServiceEnabled = form.Opt3;
+                pBoxPlayerBack.ImageLocation = form.Opt4;
 
                 fetchAlbumCoverTimer.Enabled = coverServiceEnabled;
             }
+        }
+
+        private void tsmiCopySongName_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(lSongName.Text);
+        }
+
+        private void tsmiCopyAlbumName_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(lAlbumName.Text);
+        }
+
+        private void tsmiSaveCover_Click(object sender, EventArgs e)
+        {
+            string tempUrl = bufferPlaylist[0].AlbumCoverURL;
+
+            string ext = Path.GetExtension(tempUrl);
+
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.FileName = lSongName.Text + " (Cover)" + ext;
+            saveFileDialog1.Filter = "Image files | *" + ext;
+            saveFileDialog1.DefaultExt = ext;
+            saveFileDialog1.AddExtension = true;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(tempUrl, saveFileDialog1.FileName);
+            }
+        }
+
+        private void tsmiGoToAlbumSite_Click(object sender, EventArgs e)
+        {
+            Process.Start(bufferPlaylist[0].AlbumURL);
+        }
+
+        private void tsmiAbout_Click(object sender, EventArgs e)
+        {
+            About form = new About();
+            form.ShowDialog();
         }
     }
 }

@@ -63,6 +63,26 @@ namespace KHRandomPlayer.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap DefaultBack {
+            get {
+                object obj = ResourceManager.GetObject("DefaultBack", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Pommy_loading {
+            get {
+                object obj = ResourceManager.GetObject("Pommy loading", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PommyBadge {
             get {
                 object obj = ResourceManager.GetObject("PommyBadge", resourceCulture);
