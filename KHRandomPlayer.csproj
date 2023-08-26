@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Pommy icon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Pommy icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>EE1707490C50C004DC0D78B2B3536A149D044BFE</ManifestCertificateThumbprint>
@@ -64,6 +64,7 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.AsyncInterfaces.7.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -107,18 +108,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="About.cs">
+    <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="About.Designer.cs">
+    <Compile Include="Forms\About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
     <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\SettingsModel.cs" />
-    <Compile Include="KHRandomPlayer.cs">
+    <Compile Include="Forms\KHRandomPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="KHRandomPlayer.Designer.cs">
+    <Compile Include="Forms\KHRandomPlayer.Designer.cs">
       <DependentUpon>KHRandomPlayer.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -129,16 +130,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Classes\SongModel.cs" />
-    <Compile Include="Settings.cs">
+    <Compile Include="Forms\Settings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Settings.Designer.cs">
+    <Compile Include="Forms\Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="About.resx">
+    <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="KHRandomPlayer.resx">
+    <EmbeddedResource Include="Forms\KHRandomPlayer.resx">
       <DependentUpon>KHRandomPlayer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -146,7 +147,7 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Settings.resx">
+    <EmbeddedResource Include="Forms\Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="KHRandomPlayer_TemporaryKey.pfx" />
@@ -185,7 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PommyBadge.png" />
-    <Content Include="Pommy icon.ico" />
+    <Content Include="Resources\Pommy icon.ico" />
     <None Include="Resources\DefaultBack.png" />
     <None Include="Resources\Pommy loading.gif" />
     <Content Include="Resources\SkinPlayer.png" />

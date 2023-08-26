@@ -131,7 +131,7 @@
             this.btnFetch.Margin = new System.Windows.Forms.Padding(1);
             this.btnFetch.Name = "btnFetch";
             this.btnFetch.Size = new System.Drawing.Size(58, 32);
-            this.btnFetch.TabIndex = 0;
+            this.btnFetch.TabIndex = 4;
             this.btnFetch.Text = "Fetch";
             this.btnFetch.UseVisualStyleBackColor = false;
             this.btnFetch.Click += new System.EventHandler(this.StartFetch);
@@ -164,7 +164,7 @@
             this.btnDownload.Margin = new System.Windows.Forms.Padding(1);
             this.btnDownload.Name = "btnDownload";
             this.btnDownload.Size = new System.Drawing.Size(195, 32);
-            this.btnDownload.TabIndex = 3;
+            this.btnDownload.TabIndex = 5;
             this.btnDownload.Text = "Download";
             this.btnDownload.UseVisualStyleBackColor = false;
             this.btnDownload.Click += new System.EventHandler(this.btnDownload_Click);
@@ -272,7 +272,7 @@
             this.MediaPlayer.Name = "MediaPlayer";
             this.MediaPlayer.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("MediaPlayer.OcxState")));
             this.MediaPlayer.Size = new System.Drawing.Size(454, 44);
-            this.MediaPlayer.TabIndex = 2;
+            this.MediaPlayer.TabIndex = 3;
             this.MediaPlayer.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.MediaPlayer_PlayStateChange);
             // 
             // tableLayoutPanel3
@@ -355,7 +355,7 @@
             this.btnNextSong.Margin = new System.Windows.Forms.Padding(1);
             this.btnNextSong.Name = "btnNextSong";
             this.btnNextSong.Size = new System.Drawing.Size(195, 32);
-            this.btnNextSong.TabIndex = 12;
+            this.btnNextSong.TabIndex = 6;
             this.btnNextSong.Text = "Next song";
             this.btnNextSong.UseVisualStyleBackColor = false;
             this.btnNextSong.Click += new System.EventHandler(this.btnNextSong_Click);
@@ -980,7 +980,7 @@
             this.btnMinimize.Location = new System.Drawing.Point(377, 5);
             this.btnMinimize.Name = "btnMinimize";
             this.btnMinimize.Size = new System.Drawing.Size(59, 28);
-            this.btnMinimize.TabIndex = 17;
+            this.btnMinimize.TabIndex = 1;
             this.btnMinimize.UseVisualStyleBackColor = false;
             this.btnMinimize.Click += new System.EventHandler(this.btnMinimize_Click);
             // 
@@ -996,7 +996,7 @@
             this.btnClose.Location = new System.Drawing.Point(436, 5);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(49, 28);
-            this.btnClose.TabIndex = 18;
+            this.btnClose.TabIndex = 2;
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -1012,7 +1012,7 @@
             this.btnShowPlaylist.Location = new System.Drawing.Point(430, 247);
             this.btnShowPlaylist.Name = "btnShowPlaylist";
             this.btnShowPlaylist.Size = new System.Drawing.Size(56, 28);
-            this.btnShowPlaylist.TabIndex = 19;
+            this.btnShowPlaylist.TabIndex = 8;
             this.btnShowPlaylist.UseVisualStyleBackColor = false;
             this.btnShowPlaylist.Click += new System.EventHandler(this.btnShowPlaylist_Click);
             // 
@@ -1071,7 +1071,7 @@
             this.btnSettings.Location = new System.Drawing.Point(179, 247);
             this.btnSettings.Name = "btnSettings";
             this.btnSettings.Size = new System.Drawing.Size(70, 28);
-            this.btnSettings.TabIndex = 23;
+            this.btnSettings.TabIndex = 7;
             this.btnSettings.UseVisualStyleBackColor = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 

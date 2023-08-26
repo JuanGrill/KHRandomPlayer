@@ -31,15 +31,15 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tlpGeneral = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
             this.numMinimumSong = new System.Windows.Forms.NumericUpDown();
             this.numLimitSong = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cBoxCoverService = new System.Windows.Forms.CheckBox();
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnLoadCustomBackground = new System.Windows.Forms.Button();
+            this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.tlpGeneral.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinimumSong)).BeginInit();
@@ -51,7 +51,7 @@
             this.btnSave.Location = new System.Drawing.Point(137, 144);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
-            this.btnSave.TabIndex = 0;
+            this.btnSave.TabIndex = 5;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -90,6 +90,18 @@
             this.tlpGeneral.Size = new System.Drawing.Size(194, 107);
             this.tlpGeneral.TabIndex = 3;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(3, 78);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(117, 29);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Load custom background";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // numMinimumSong
             // 
             this.numMinimumSong.DecimalPlaces = 1;
@@ -107,7 +119,7 @@
             0});
             this.numMinimumSong.Name = "numMinimumSong";
             this.numMinimumSong.Size = new System.Drawing.Size(65, 20);
-            this.numMinimumSong.TabIndex = 6;
+            this.numMinimumSong.TabIndex = 2;
             this.numMinimumSong.Value = new decimal(new int[] {
             30,
             0,
@@ -130,7 +142,7 @@
             0});
             this.numLimitSong.Name = "numLimitSong";
             this.numLimitSong.Size = new System.Drawing.Size(65, 20);
-            this.numLimitSong.TabIndex = 3;
+            this.numLimitSong.TabIndex = 1;
             this.numLimitSong.Value = new decimal(new int[] {
             20,
             0,
@@ -185,37 +197,25 @@
             this.cBoxCoverService.TabIndex = 3;
             this.cBoxCoverService.UseVisualStyleBackColor = true;
             // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(56, 144);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(3, 78);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(117, 29);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Load custom background";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // btnLoadCustomBackground
             // 
             this.btnLoadCustomBackground.Location = new System.Drawing.Point(126, 81);
             this.btnLoadCustomBackground.Name = "btnLoadCustomBackground";
             this.btnLoadCustomBackground.Size = new System.Drawing.Size(65, 23);
-            this.btnLoadCustomBackground.TabIndex = 8;
+            this.btnLoadCustomBackground.TabIndex = 4;
             this.btnLoadCustomBackground.Text = "Search";
             this.btnLoadCustomBackground.UseVisualStyleBackColor = true;
             this.btnLoadCustomBackground.Click += new System.EventHandler(this.btnLoadCustomBackground_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(56, 144);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.TabIndex = 6;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // Settings
             // 
