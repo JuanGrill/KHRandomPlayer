@@ -45,7 +45,7 @@ namespace KHRandomPlayer
         private void btnSave_Click(object sender, EventArgs e)
         {
             SettingsModel settingsModel = new SettingsModel((int)numLimitSong.Value, (double)numMinimumSong.Value, cBoxCoverService.Checked, Opt4);
-            File.WriteAllText("Settings.json", JsonSerializer.Serialize(settingsModel));
+            File.WriteAllText(Constants.FileNames.saveFileName, JsonSerializer.Serialize(settingsModel));
 
             Opt1 = (int)numLimitSong.Value;
             Opt2 = (int)numMinimumSong.Value;

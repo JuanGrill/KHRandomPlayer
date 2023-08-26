@@ -21,5 +21,18 @@
             public const string baseUrl = "https://downloads.khinsider.com";
             public const string randomDirectory = baseUrl + "/random-song";
         }
+
+        public class FileNames
+        {
+            public const string saveFileName = "Settings.json";
+        }
+
+        public class Configutation
+        {
+            public const int settingsForm_numLimitSong_minValue = 5;
+            public const int settingsForm_numLimitSong_maxValue = 99;
+            public const int settingsForm_numMinimumSong_minValue = 0;
+            public const int settingsForm_numMinimumSong_maxValue = 99999;
+        }
     }
 }

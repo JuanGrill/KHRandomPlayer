@@ -1,15 +1,15 @@
-﻿using System;
+﻿using KHRandomPlayer.Classes;
+using KHRandomPlayer.Properties;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Web;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Text.Json;
-using KHRandomPlayer.Classes;
-using System.Diagnostics;
-using KHRandomPlayer.Properties;
+using System.Threading.Tasks;
+using System.Web;
+using System.Windows.Forms;
 
 namespace KHRandomPlayer
 {
@@ -27,6 +27,10 @@ namespace KHRandomPlayer
         private bool coverServiceEnabled;
 
         private SettingsModel settingsModel;
+
+        private int durationCounter = 0;
+        private SongModel tempSongDuration = new SongModel();
+        private SongModel tempSongCover = new SongModel();
 
         public KHRandomPlayer()
         {
@@ -91,14 +95,32 @@ namespace KHRandomPlayer
             tableLayoutPanel1.Location = new Point(tableLayoutPanel1.Location.X - pBoxPlayerBack.Location.X, tableLayoutPanel1.Location.Y - pBoxPlayerBack.Location.Y);
 
             //Load settings
-            if (File.Exists("Settings.json"))
+            if (File.Exists(Constants.FileNames.saveFileName))
             {
-                settingsModel = JsonSerializer.Deserialize<SettingsModel>(File.ReadAllText("Settings.json"));
+                settingsModel = JsonSerializer.Deserialize<SettingsModel>(File.ReadAllText(Constants.FileNames.saveFileName));
+
+                if (settingsModel.S_MinimumSongLength < Constants.Configutation.settingsForm_numMinimumSong_minValue)
+                {
+                    settingsModel.S_MinimumSongLength = Constants.Configutation.settingsForm_numMinimumSong_minValue;
+                }
+                else if (settingsModel.S_MinimumSongLength > Constants.Configutation.settingsForm_numMinimumSong_maxValue)
+                {
+                    settingsModel.S_MinimumSongLength = Constants.Configutation.settingsForm_numMinimumSong_maxValue;
+                }
+
+                if (settingsModel.S_LimitSongQueue < Constants.Configutation.settingsForm_numLimitSong_minValue)
+                {
+                    settingsModel.S_LimitSongQueue = Constants.Configutation.settingsForm_numLimitSong_minValue;
+                }
+                else if (settingsModel.S_LimitSongQueue > Constants.Configutation.settingsForm_numLimitSong_maxValue)
+                {
+                    settingsModel.S_LimitSongQueue = Constants.Configutation.settingsForm_numLimitSong_maxValue;
+                }
             }
             else
             {
                 settingsModel = new SettingsModel(20, 30, true, "");
-                File.WriteAllText("Settings.json", JsonSerializer.Serialize(settingsModel));
+                File.WriteAllText(Constants.FileNames.saveFileName, JsonSerializer.Serialize(settingsModel));
             }
 
             numLimitSongQueue = settingsModel.S_LimitSongQueue;
@@ -200,7 +222,7 @@ namespace KHRandomPlayer
                 tsmiSaveCover.Enabled = false;
                 pBoxCover.ImageLocation = "";
             }
-            
+
             btnDownload.Enabled = true;
         }
 
@@ -232,9 +254,6 @@ namespace KHRandomPlayer
                 await FetchMusic();
             }
         }
-
-        private int durationCounter = 0;
-        private SongModel tempSongDuration = new SongModel();
 
         private void fetchDurationTimer_Tick(object sender, EventArgs e)
         {
@@ -292,8 +311,6 @@ namespace KHRandomPlayer
             }
         }
 
-        private SongModel tempSongCover = new SongModel();
-
         private async void fetchAlbumCoverTimer_Tick(object sender, EventArgs e)
         {
             if (lAudioCoverStatus.Text == "Cover ready" || lAudioCoverStatus.Text == "Error in server for cover. Retrying...")
@@ -347,6 +364,15 @@ namespace KHRandomPlayer
             }
         }
 
+        private void playSoundTrigger_Tick(object sender, EventArgs e)
+        {
+            if (MediaPlayer.playState == WMPLib.WMPPlayState.wmppsReady)
+            {
+                MediaPlayer.Ctlcontrols.play();
+                playSoundTrigger.Enabled = false;
+            }
+        }
+
         private void UpdateTable()
         {
             lTotalSongsFetched.Text = "Songs fetched: " + bufferPlaylist.Count;
@@ -369,15 +395,6 @@ namespace KHRandomPlayer
                 listSongLabelsPlaylist[i].Text = "";
                 listSongAlbumLabelsPlaylist[i].Text = "";
                 listSongDurationLabelsPlaylist[i].Text = "";
-            }
-        }
-
-        private void playSoundTrigger_Tick(object sender, EventArgs e)
-        {
-            if (MediaPlayer.playState == WMPLib.WMPPlayState.wmppsReady)
-            {
-                MediaPlayer.Ctlcontrols.play();
-                playSoundTrigger.Enabled = false;
             }
         }
 
@@ -452,23 +469,6 @@ namespace KHRandomPlayer
             ControlPaint.DrawBorder(e.Graphics, tlpPlaylist.ClientRectangle, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid, Color.DarkCyan, 2, ButtonBorderStyle.Solid);
         }
 
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private void MoveWindow(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-
         private void btnSettings_Click(object sender, EventArgs e)
         {
             Settings form = new Settings(numLimitSongQueue, minSongLength, coverServiceEnabled, pBoxPlayerBack.ImageLocation);
@@ -523,6 +523,23 @@ namespace KHRandomPlayer
         {
             About form = new About();
             form.ShowDialog();
+        }
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        private void MoveWindow(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
     }
 }
