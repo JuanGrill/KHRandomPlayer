@@ -10,13 +10,14 @@
         public string AlbumCoverURL { get; set; }
 
         public SongModel() { }
-        public SongModel(string url, string songName, string albumName, string duration, string albumURL)
+        public SongModel(string url, string songName, string albumName, string duration, string albumURL, string albumCoverUrl = null)
         {
             Url = url;
             SongName = songName;
             AlbumName = albumName;
             Duration = duration;
             AlbumURL = albumURL;
+            AlbumCoverURL = albumCoverUrl;
         }
     }
 }

@@ -37,13 +37,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lLink2 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lLink3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::KHRandomPlayer.Properties.Resources.Pommy_loading;
-            this.pictureBox1.Location = new System.Drawing.Point(171, 166);
+            this.pictureBox1.Location = new System.Drawing.Point(171, 182);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(65, 56);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -71,7 +72,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 56);
+            this.label3.Location = new System.Drawing.Point(12, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(221, 32);
             this.label3.TabIndex = 3;
@@ -79,7 +80,7 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(12, 88);
+            this.label4.Location = new System.Drawing.Point(12, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(221, 48);
             this.label4.TabIndex = 4;
@@ -91,7 +92,7 @@
             this.lLink1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lLink1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lLink1.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lLink1.Location = new System.Drawing.Point(12, 128);
+            this.lLink1.Location = new System.Drawing.Point(12, 144);
             this.lLink1.Name = "lLink1";
             this.lLink1.Size = new System.Drawing.Size(174, 18);
             this.lLink1.TabIndex = 5;
@@ -100,7 +101,7 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(12, 154);
+            this.label5.Location = new System.Drawing.Point(12, 170);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(156, 28);
             this.label5.TabIndex = 6;
@@ -111,7 +112,7 @@
             this.lLink2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lLink2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lLink2.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lLink2.Location = new System.Drawing.Point(12, 181);
+            this.lLink2.Location = new System.Drawing.Point(12, 197);
             this.lLink2.Name = "lLink2";
             this.lLink2.Size = new System.Drawing.Size(134, 18);
             this.lLink2.TabIndex = 7;
@@ -120,17 +121,30 @@
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(12, 196);
+            this.label7.Location = new System.Drawing.Point(12, 212);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(157, 32);
             this.label7.TabIndex = 8;
             this.label7.Text = "...and consider donating too. Thank you!";
             // 
+            // lLink3
+            // 
+            this.lLink3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lLink3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lLink3.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lLink3.Location = new System.Drawing.Point(13, 49);
+            this.lLink3.Name = "lLink3";
+            this.lLink3.Size = new System.Drawing.Size(90, 18);
+            this.lLink3.TabIndex = 9;
+            this.lLink3.Text = "See it on GitHub";
+            this.lLink3.Click += new System.EventHandler(this.lLink3_Click);
+            // 
             // About
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(245, 239);
+            this.ClientSize = new System.Drawing.Size(245, 251);
+            this.Controls.Add(this.lLink3);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.lLink2);
             this.Controls.Add(this.label5);
@@ -144,7 +158,6 @@
             this.Name = "About";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "About";
-            this.TopMost = true;
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -162,5 +175,6 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label lLink2;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lLink3;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using KHRandomPlayer.Classes;
+using KHRandomPlayer.Forms;
 using KHRandomPlayer.Properties;
 using System;
 using System.Collections.Generic;
@@ -25,12 +26,17 @@ namespace KHRandomPlayer
         private int numLimitSongQueue;
         private double minSongLength;
         private bool coverServiceEnabled;
+        private bool alwaysOnTop;
 
         private SettingsModel settingsModel;
 
         private int durationCounter = 0;
         private SongModel tempSongDuration = new SongModel();
         private SongModel tempSongCover = new SongModel();
+
+        private FavoritesAndHistory favAndHistForm = new FavoritesAndHistory();
+        private Settings settingsForm;
+        private About aboutForm;
 
         public KHRandomPlayer()
         {
@@ -91,8 +97,11 @@ namespace KHRandomPlayer
             btnMinimize.Parent = pBoxSkinPlayer;
             btnShowPlaylist.Parent = pBoxSkinPlayer;
             btnSettings.Parent = pBoxSkinPlayer;
-            tableLayoutPanel1.Parent = pBoxPlayerBack;
-            tableLayoutPanel1.Location = new Point(tableLayoutPanel1.Location.X - pBoxPlayerBack.Location.X, tableLayoutPanel1.Location.Y - pBoxPlayerBack.Location.Y);
+            btnToggleMiniplayer.Parent = pBoxSkinPlayer;
+            btnFavorites.Parent = pBoxSkinPlayer;
+            btnHistory.Parent = pBoxSkinPlayer;
+            tlpMainPlayer.Parent = pBoxPlayerBack;
+            tlpMainPlayer.Location = new Point(tlpMainPlayer.Location.X - pBoxPlayerBack.Location.X, tlpMainPlayer.Location.Y - pBoxPlayerBack.Location.Y);
 
             //Load settings
             if (File.Exists(Constants.FileNames.saveFileName))
@@ -119,13 +128,17 @@ namespace KHRandomPlayer
             }
             else
             {
-                settingsModel = new SettingsModel(20, 30, true, "");
+                settingsModel = new SettingsModel(20, 30, true, "", false);
                 File.WriteAllText(Constants.FileNames.saveFileName, JsonSerializer.Serialize(settingsModel));
             }
 
             numLimitSongQueue = settingsModel.S_LimitSongQueue;
             minSongLength = settingsModel.S_MinimumSongLength;
             coverServiceEnabled = settingsModel.S_CoverServiceEnabled;
+            alwaysOnTop = settingsModel.S_AlwaysOnTop;
+
+            settingsForm = new Settings(numLimitSongQueue, minSongLength, coverServiceEnabled, pBoxPlayerBack.ImageLocation, alwaysOnTop);
+            aboutForm = new About();
 
             if (settingsModel.S_PlayerBackgroundRoute != "" && File.Exists(settingsModel.S_PlayerBackgroundRoute))
             {
@@ -135,6 +148,11 @@ namespace KHRandomPlayer
             {
                 pBoxPlayerBack.Image = Resources.DefaultBack;
             }
+
+            TopMost = alwaysOnTop;
+            settingsForm.TopMost = alwaysOnTop;
+            aboutForm.TopMost = alwaysOnTop;
+            favAndHistForm.TopMost = alwaysOnTop;
         }
 
         private void StartFetch(object sender, EventArgs e)
@@ -224,6 +242,7 @@ namespace KHRandomPlayer
             }
 
             btnDownload.Enabled = true;
+            btnAddFavorites.Enabled = true;
         }
 
         private void PlayNextSong()
@@ -231,8 +250,14 @@ namespace KHRandomPlayer
             //If there's one song left in queue, don't continue to the next song
             if (bufferPlaylist.Count > 1)
             {
+                //Save to history before remove it
+                SongModel tempSongModel = bufferPlaylist[0];
+                favAndHistForm.AddToHistory(tempSongModel.Url, tempSongModel.SongName, tempSongModel.AlbumName, tempSongModel.Duration, tempSongModel.AlbumURL, tempSongModel.AlbumCoverURL);
+
                 bufferPlaylist.RemoveAt(0);
                 UpdateTable();
+
+                btnAddFavorites.Text = "Add to favorites";
 
                 //Disable Next song button
                 if (bufferPlaylist.Count < 2 || bufferPlaylist[1] == null || bufferPlaylist[1].Duration == "Loading...")
@@ -471,16 +496,29 @@ namespace KHRandomPlayer
 
         private void btnSettings_Click(object sender, EventArgs e)
         {
-            Settings form = new Settings(numLimitSongQueue, minSongLength, coverServiceEnabled, pBoxPlayerBack.ImageLocation);
+            settingsForm.Opt1 = numLimitSongQueue;
+            settingsForm.Opt2 = minSongLength;
+            settingsForm.Opt3 = coverServiceEnabled;
+            settingsForm.Opt4 = pBoxPlayerBack.ImageLocation;
+            settingsForm.Opt5 = alwaysOnTop; 
 
-            if (form.ShowDialog() == DialogResult.OK)
+            if (settingsForm.ShowDialog() == DialogResult.OK)
             {
-                numLimitSongQueue = form.Opt1;
-                minSongLength = form.Opt2;
-                coverServiceEnabled = form.Opt3;
-                pBoxPlayerBack.ImageLocation = form.Opt4;
+                numLimitSongQueue = settingsForm.Opt1;
+                minSongLength = settingsForm.Opt2;
+                coverServiceEnabled = settingsForm.Opt3;
+
+                if (settingsForm.Opt4 != "")
+                {
+                    pBoxPlayerBack.ImageLocation = settingsForm.Opt4;
+                }
 
                 fetchAlbumCoverTimer.Enabled = coverServiceEnabled;
+
+                TopMost = settingsForm.Opt5;
+                settingsForm.TopMost = settingsForm.Opt5;
+                aboutForm.TopMost = settingsForm.Opt5;
+                favAndHistForm.TopMost = settingsForm.Opt5;
             }
         }
 
@@ -521,8 +559,7 @@ namespace KHRandomPlayer
 
         private void tsmiAbout_Click(object sender, EventArgs e)
         {
-            About form = new About();
-            form.ShowDialog();
+            aboutForm.ShowDialog();
         }
 
         public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -539,6 +576,93 @@ namespace KHRandomPlayer
             {
                 ReleaseCapture();
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private bool miniPlayerEnabled = false;
+
+        private void btnToggleMiniplayer_Click(object sender, EventArgs e)
+        {
+            if (!miniPlayerEnabled)
+            {
+                pBoxSkinPlayer.BackgroundImage = Resources.KHPlayerSkin_Mini_Blue;
+                lTitle.Visible = false;
+                lStatus.Visible = false;
+                tlpMainPlayer.Size = new Size(220, tlpMainPlayer.Size.Height);
+                pBoxPlayerBack.Size = new Size(239, pBoxPlayerBack.Size.Height);
+                this.Size = new Size(250, 280);
+                btnAddFavorites.Text = "Fav";
+                btnDownload.Text = "Dl";
+                btnNextSong.Text = "Next";
+                tlpCoverAndSongName.ColumnStyles[0].Width = 0;
+                pBoxCover.Visible = false;
+
+                btnClose.Location = new Point(194, btnClose.Location.Y);
+                btnMinimize.Location = new Point(135, btnMinimize.Location.Y);
+                btnSettings.Location = new Point(-8, btnSettings.Location.Y);
+                btnFavorites.Location = new Point(40, btnFavorites.Location.Y);
+                btnHistory.Location = new Point(78, btnHistory.Location.Y);
+
+                miniPlayerEnabled = !miniPlayerEnabled;
+            }
+            else
+            {
+                pBoxSkinPlayer.BackgroundImage = Resources.KHPlayerSkin_Normal_Blue;
+                lTitle.Visible = true;
+                lStatus.Visible = true;
+                tlpMainPlayer.Size = new Size(461, tlpMainPlayer.Size.Height);
+                pBoxPlayerBack.Size = new Size(479, pBoxPlayerBack.Size.Height);
+                this.Size = new Size(500, 280);
+                btnAddFavorites.Text = "Add to favorites";
+                btnDownload.Text = "Download";
+                btnNextSong.Text = "Next song";
+                tlpCoverAndSongName.ColumnStyles[0].Width = 99;
+                pBoxCover.Visible = true;
+
+                btnClose.Location = new Point(436, btnClose.Location.Y);
+                btnMinimize.Location = new Point(377, btnMinimize.Location.Y);
+                btnSettings.Location = new Point(271, btnSettings.Location.Y);
+                btnFavorites.Location = new Point(316, btnFavorites.Location.Y);
+                btnHistory.Location = new Point(357, btnHistory.Location.Y);
+
+                miniPlayerEnabled = !miniPlayerEnabled;
+            }
+        }
+
+        private void btnAddFavorites_Click(object sender, EventArgs e)
+        {
+            SongModel tempSongModel = bufferPlaylist[0];
+            if (favAndHistForm.AddToFavorites(tempSongModel.Url, tempSongModel.SongName, tempSongModel.AlbumName, tempSongModel.Duration, tempSongModel.AlbumURL, tempSongModel.AlbumCoverURL))
+            {
+                btnAddFavorites.Text = "Added to favorites!";
+            }
+            else
+            {
+                btnAddFavorites.Text = "Already on favorites!";
+            }
+        }
+
+        private void btnFavorites_Click(object sender, EventArgs e)
+        {
+            favAndHistForm.TabSelected = 0;
+
+            if (favAndHistForm.ShowDialog() == DialogResult.OK)
+            {
+                bufferPlaylist.Insert(0, favAndHistForm.SongAddedToQueue);
+                PlayMusic();
+                UpdateTable();
+            }
+        }
+
+        private void btnHistory_Click(object sender, EventArgs e)
+        {
+            favAndHistForm.TabSelected = 1;
+
+            if (favAndHistForm.ShowDialog() == DialogResult.OK)
+            {
+                bufferPlaylist.Insert(0, favAndHistForm.SongAddedToQueue);
+                PlayMusic();
+                UpdateTable();
             }
         }
     }

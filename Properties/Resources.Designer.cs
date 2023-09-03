@@ -73,6 +73,26 @@ namespace KHRandomPlayer.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap KHPlayerSkin_Mini_Blue {
+            get {
+                object obj = ResourceManager.GetObject("KHPlayerSkin Mini Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap KHPlayerSkin_Normal_Blue {
+            get {
+                object obj = ResourceManager.GetObject("KHPlayerSkin Normal Blue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Pommy_loading {
             get {
                 object obj = ResourceManager.GetObject("Pommy loading", resourceCulture);

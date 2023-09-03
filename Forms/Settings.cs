@@ -12,14 +12,16 @@ namespace KHRandomPlayer
         public double Opt2 { get; set; }
         public bool Opt3 { get; set; }
         public string Opt4 { get; set; }
+        public bool Opt5 { get; set; }
 
-        public Settings(int opt1, double opt2, bool opt3, string opt4)
+        public Settings(int opt1, double opt2, bool opt3, string opt4, bool opt5)
         {
             InitializeComponent();
             numLimitSong.Value = opt1;
             numMinimumSong.Value = (decimal)opt2;
             cBoxCoverService.Checked = opt3;
             Opt4 = opt4;
+            cBoxAlwaysOnTop.Checked = opt5;
         }
 
         private void btnLoadCustomBackground_Click(object sender, EventArgs e)
@@ -44,15 +46,23 @@ namespace KHRandomPlayer
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            SettingsModel settingsModel = new SettingsModel((int)numLimitSong.Value, (double)numMinimumSong.Value, cBoxCoverService.Checked, Opt4);
+            SettingsModel settingsModel = new SettingsModel((int)numLimitSong.Value, (double)numMinimumSong.Value, cBoxCoverService.Checked, Opt4, cBoxAlwaysOnTop.Checked);
             File.WriteAllText(Constants.FileNames.saveFileName, JsonSerializer.Serialize(settingsModel));
 
             Opt1 = (int)numLimitSong.Value;
             Opt2 = (int)numMinimumSong.Value;
             Opt3 = cBoxCoverService.Checked;
+            Opt5 = cBoxAlwaysOnTop.Checked;
 
             this.DialogResult = DialogResult.OK;
-            this.Close();
+        }
+
+        private void Settings_Load(object sender, EventArgs e)
+        {
+            numLimitSong.Value = Opt1;
+            numMinimumSong.Value = (decimal)Opt2;
+            cBoxCoverService.Checked = Opt3;
+            btnLoadCustomBackground.Text = "Search";
         }
     }
 }

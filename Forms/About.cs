@@ -20,5 +20,10 @@ namespace KHRandomPlayer
         {
             Process.Start(lLink2.Text);
         }
+
+        private void lLink3_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://github.com/JuanGrill/KHRandomPlayer");
+        }
     }
 }

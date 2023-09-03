@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -116,6 +116,12 @@
     </Compile>
     <Compile Include="Classes\Constants.cs" />
     <Compile Include="Classes\SettingsModel.cs" />
+    <Compile Include="Forms\FavoritesAndHistory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FavoritesAndHistory.Designer.cs">
+      <DependentUpon>FavoritesAndHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\KHRandomPlayer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +145,9 @@
     <EmbeddedResource Include="Forms\About.resx">
       <DependentUpon>About.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FavoritesAndHistory.resx">
+      <DependentUpon>FavoritesAndHistory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\KHRandomPlayer.resx">
       <DependentUpon>KHRandomPlayer.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +161,7 @@
     </EmbeddedResource>
     <None Include="KHRandomPlayer_TemporaryKey.pfx" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\SongModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -186,6 +196,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PommyBadge.png" />
+    <None Include="Resources\KHPlayerSkin Mini Blue.png" />
+    <None Include="Resources\KHPlayerSkin Normal Blue.png" />
     <Content Include="Resources\Pommy icon.ico" />
     <None Include="Resources\DefaultBack.png" />
     <None Include="Resources\Pommy loading.gif" />
